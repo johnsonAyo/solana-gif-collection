@@ -71,6 +71,14 @@ const App = () => {
     setInputValue(value);
   };
 
+  const sendGif = async () => {
+    if (inputValue.length > 0) {
+      console.log('Gif link:', inputValue);
+    } else {
+      console.log('Empty input. Try again.');
+    }
+  };
+
   /*
    * We want to render this UI when the user hasn't connected
    * their wallet to our app yet.
