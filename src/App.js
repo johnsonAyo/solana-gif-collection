@@ -7,6 +7,9 @@ const TWITTER_HANDLE = "Ambiti0n____";
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
 const App = () => {
+
+    // State
+    const [walletAddress, setWalletAddress] = useState(null);
   /*
    * This function holds the logic for deciding if a Phantom Wallet is
    * connected or not
@@ -28,6 +31,11 @@ const App = () => {
             "Connected with Public Key:",
             response.publicKey.toString()
           );
+
+              /*
+           * Set the user's publicKey in state to be used later!
+           */
+              setWalletAddress(response.publicKey.toString());
         }
       } else {
         alert("Solana object not found! Get a Phantom Wallet 👻");
