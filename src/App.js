@@ -16,6 +16,7 @@ const TEST_GIFS = [
 const App = () => {
   // State
   const [walletAddress, setWalletAddress] = useState(null);
+  const [inputValue, setInputValue] = useState("");
   /*
    * This function holds the logic for deciding if a Phantom Wallet is
    * connected or not
@@ -65,6 +66,11 @@ const App = () => {
     }
   };
 
+  const onInputChange = (event) => {
+    const { value } = event.target;
+    setInputValue(value);
+  };
+
   /*
    * We want to render this UI when the user hasn't connected
    * their wallet to our app yet.
@@ -86,8 +92,15 @@ const App = () => {
           event.preventDefault();
         }}
       >
-        <input type="text" placeholder="Enter gif link!" />
-        <button type="submit" className="cta-button submit-gif-button">Submit</button>
+        <input
+          type="text"
+          placeholder="Enter gif link!"
+          value={inputValue}
+          onChange={onInputChange}
+        />
+        <button type="submit" className="cta-button submit-gif-button">
+          Submit
+        </button>
       </form>
       <div className="gif-grid">
         {TEST_GIFS.map((gif) => (
