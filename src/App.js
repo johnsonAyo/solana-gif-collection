@@ -80,6 +80,15 @@ const App = () => {
 
   const renderConnectedContainer = () => (
     <div className="connected-container">
+      {/* Go ahead and add this input and button to start */}
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+        }}
+      >
+        <input type="text" placeholder="Enter gif link!" />
+        <button type="submit" className="cta-button submit-gif-button">Submit</button>
+      </form>
       <div className="gif-grid">
         {TEST_GIFS.map((gif) => (
           <div className="gif-item" key={gif}>
