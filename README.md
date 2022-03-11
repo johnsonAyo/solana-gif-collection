@@ -1,7 +1,6 @@
 # Solana GIF Portal Project
 
-connecting our blockchain through phantom solana wallet
-we will be reading and writing datas into the solana blockchain. 
+connect your Phantom wallet and save gifs in the meterverse. the gif is 100% owned by you and saved to the solana blockchain 
 
  Without backend, database or Api, the stateless solana blockchain is able to store our data which in this project is a link to a gif and displayed in our react client.
 
