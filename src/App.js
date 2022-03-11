@@ -14,9 +14,10 @@ const TEST_GIFS = [
 ];
 
 const App = () => {
-  // State
-  const [walletAddress, setWalletAddress] = useState(null);
-  const [inputValue, setInputValue] = useState("");
+ // State
+const [walletAddress, setWalletAddress] = useState(null);
+const [inputValue, setInputValue] = useState('');
+const [gifList, setGifList] = useState([]);
   /*
    * This function holds the logic for deciding if a Phantom Wallet is
    * connected or not
@@ -73,9 +74,9 @@ const App = () => {
 
   const sendGif = async () => {
     if (inputValue.length > 0) {
-      console.log('Gif link:', inputValue);
+      console.log("Gif link:", inputValue);
     } else {
-      console.log('Empty input. Try again.');
+      console.log("Empty input. Try again.");
     }
   };
 
@@ -98,6 +99,7 @@ const App = () => {
       <form
         onSubmit={(event) => {
           event.preventDefault();
+          sendGif();
         }}
       >
         <input
@@ -131,6 +133,27 @@ const App = () => {
     window.addEventListener("load", onLoad);
     return () => window.removeEventListener("load", onLoad);
   }, []);
+
+
+  useEffect(() => {
+    const onLoad = async () => {
+      await checkIfWalletIsConnected();
+    };
+    window.addEventListener('load', onLoad);
+    return () => window.removeEventListener('load', onLoad);
+  }, []);
+  
+  useEffect(() => {
+    if (walletAddress) {
+      console.log('Fetching GIF list...');
+      
+      // Call Solana program here.
+  
+      // Set state
+      setGifList(TEST_GIFS);
+    }
+  }, [walletAddress]);
+  
 
   return (
     <div className="App">
