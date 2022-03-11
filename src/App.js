@@ -79,6 +79,18 @@ const App = () => {
     </button>
   );
 
+  const renderConnectedContainer = () => (
+    <div className="connected-container">
+      <div className="gif-grid">
+        {TEST_GIFS.map(gif => (
+          <div className="gif-item" key={gif}>
+            <img src={gif} alt={gif} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
   /*
    * When our component first mounts, let's check to see if we have a connected
    * Phantom Wallet
