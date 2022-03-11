@@ -1,5 +1,6 @@
 import twitterLogo from './assets/twitter-logo.svg';
 import './App.css';
+import {useEffect, useState} from 'react'
 
 // Constants
 const TWITTER_HANDLE = 'Ambiti0n____';
@@ -27,7 +28,19 @@ const App = () => {
     }
   };
 
-  
+    /*
+   * When our component first mounts, let's check to see if we have a connected
+   * Phantom Wallet
+   */
+    useEffect(() => {
+      const onLoad = async () => {
+        await checkIfWalletIsConnected();
+      };
+      window.addEventListener('load', onLoad);
+      return () => window.removeEventListener('load', onLoad);
+    }, []);
+
+
   return (
     <div className="App">
       <div className="container">
