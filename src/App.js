@@ -14,10 +14,10 @@ const TEST_GIFS = [
 ];
 
 const App = () => {
- // State
-const [walletAddress, setWalletAddress] = useState(null);
-const [inputValue, setInputValue] = useState('');
-const [gifList, setGifList] = useState([]);
+  // State
+  const [walletAddress, setWalletAddress] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+  const [gifList, setGifList] = useState([]);
   /*
    * This function holds the logic for deciding if a Phantom Wallet is
    * connected or not
@@ -74,9 +74,11 @@ const [gifList, setGifList] = useState([]);
 
   const sendGif = async () => {
     if (inputValue.length > 0) {
-      console.log("Gif link:", inputValue);
+      console.log('Gif link:', inputValue);
+      setGifList([...gifList, inputValue]);
+      setInputValue('');
     } else {
-      console.log("Empty input. Try again.");
+      console.log('Empty input. Try again.');
     }
   };
 
@@ -95,7 +97,6 @@ const [gifList, setGifList] = useState([]);
 
   const renderConnectedContainer = () => (
     <div className="connected-container">
-      {/* Go ahead and add this input and button to start */}
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -113,7 +114,8 @@ const [gifList, setGifList] = useState([]);
         </button>
       </form>
       <div className="gif-grid">
-        {TEST_GIFS.map((gif) => (
+        {/* Map through gifList instead of TEST_GIFS */}
+        {gifList.map((gif) => (
           <div className="gif-item" key={gif}>
             <img src={gif} alt={gif} />
           </div>
@@ -134,26 +136,24 @@ const [gifList, setGifList] = useState([]);
     return () => window.removeEventListener("load", onLoad);
   }, []);
 
-
   useEffect(() => {
     const onLoad = async () => {
       await checkIfWalletIsConnected();
     };
-    window.addEventListener('load', onLoad);
-    return () => window.removeEventListener('load', onLoad);
+    window.addEventListener("load", onLoad);
+    return () => window.removeEventListener("load", onLoad);
   }, []);
-  
+
   useEffect(() => {
     if (walletAddress) {
-      console.log('Fetching GIF list...');
-      
+      console.log("Fetching GIF list...");
+
       // Call Solana program here.
-  
+
       // Set state
       setGifList(TEST_GIFS);
     }
   }, [walletAddress]);
-  
 
   return (
     <div className="App">
