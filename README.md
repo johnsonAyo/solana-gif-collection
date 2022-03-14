@@ -19,16 +19,13 @@
 2. To clone, run `git clone https://github.com/johnsonAyo/solana-gif-collection.git`.
 3. `cd` into the root of the **project directory**.
 4. Run `npm install` on the terminal to install dependecies.
+
+A solana phantom wallet is needed to interract with this smart contract
  
-connect your Phantom wallet and save gifs in the meterverse. the gif is 100% owned by you and saved to the solana blockchain 
+connect your Phantom wallet and save your favourite gifs in the meterverse. the gif is 100% owned by you and saved to the solana blockchain 
 
- Without backend, database or Api, the stateless solana blockchain is able to store our data which in this project is a link to a gif and displayed in our react client.
+ Without backend, database or Api, the stateless solana blockchain is able to store  data which in this project is a link to a gif and displayed in  the react client.
 
-All that is needed is a phantom wallet for authentication and you can easily write into the solana blockchain, datas will be read instantly on our client.
-
-
-
-📝 Your transaction signature 5zksWpo4uNixHgxeE9yjq4EQFt15CWnRK8DGdHqugfW3x7zkggBbacsByrzHzwNCYFpuXUP3ThRYRC1gB6uHGxn5
+All that is needed is a phantom wallet for authentication and you can easily write into the solana blockchain, datas will be read instantly on the client.
 
 
-Z2HBcTfKxWAZkV7Xa2hrQ8uXoRLSqbLWF7RYm5ALLyp
