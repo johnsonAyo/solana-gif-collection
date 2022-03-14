@@ -4,12 +4,15 @@ import { useEffect, useState } from "react";
 import idl from "./idl.json";
 import { Connection, PublicKey, clusterApiUrl } from "@solana/web3.js";
 import { Program, Provider, web3 } from "@project-serum/anchor";
+import kp from "./keyPairs/keypair.json";
 
 // SystemProgram is a reference to the Solana runtime!
 const { SystemProgram, Keypair } = web3;
 
 // Create a keypair for the account that will hold the GIF data.
-let baseAccount = Keypair.generate();
+const arr = Object.values(kp._keypair.secretKey);
+const secret = new Uint8Array(arr);
+const baseAccount = web3.Keypair.fromSecretKey(secret);
 
 // Get our program's id from the IDL file.
 const programID = new PublicKey(idl.metadata.address);
@@ -127,26 +130,32 @@ const App = () => {
 
   const sendGif = async () => {
     if (inputValue.length === 0) {
-      console.log("No gif link given!")
-      return
+      alert("No gif link given!");
+      return;
     }
-    setInputValue('');
-    console.log('Gif link:', inputValue);
+
+    if (!inputValue.endsWith(".gif" || ".jpg" || ".png" || ".jpeg")) {
+      alert("media format not correct");
+      return;
+    }
+
+    setInputValue("");
+    console.log("Gif link:", inputValue);
     try {
       const provider = getProvider();
       const program = new Program(idl, programID, provider);
-  
+
       await program.rpc.addGif(inputValue, {
         accounts: {
           baseAccount: baseAccount.publicKey,
           user: provider.wallet.publicKey,
         },
       });
-      console.log("GIF successfully sent to program", inputValue)
-  
+      console.log("GIF successfully sent to program", inputValue);
+
       await getGifList();
     } catch (error) {
-      console.log("Error sending GIF:", error)
+      console.log("Error sending GIF:", error);
     }
   };
 
@@ -252,18 +261,23 @@ const App = () => {
       getGifList();
     }
   }, [walletAddress]);
+  let renderText  = "Input your Favourite Euphoria gif link here ✨"
+  let GotWallet = "Got a solana Phantom wallet?"
+
 
   return (
     <div className="App">
       <div className="container">
         <div className="header-container">
-          <p className="header">🖼 GIF Portal</p>
+          <p className="header">Euphoria 🖼 GIF Portal</p>
           <p className="sub-text">
-            View your GIF collection in the metaverse ✨
+          {walletAddress && renderText }
+          {!walletAddress && GotWallet}
           </p>
           {!walletAddress && renderNotConnectedContainer()}
           {/* We just need to add the inverse here! */}
-          {walletAddress && renderConnectedContainer()}
+          {walletAddress && renderConnectedContainer() }
+         
         </div>
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
