@@ -93,12 +93,33 @@ const App = () => {
   };
 
   const getProvider = () => {
-  const connection = new Connection(network, opts.preflightCommitment);
-  const provider = new Provider(
-    connection, window.solana, opts.preflightCommitment,
-  );
-	return provider;
-}
+    const connection = new Connection(network, opts.preflightCommitment);
+    const provider = new Provider(
+      connection, window.solana, opts.preflightCommitment,
+    );
+    return provider;
+  }
+
+  const createGifAccount = async () => {
+    try {
+      const provider = getProvider();
+      const program = new Program(idl, programID, provider);
+      console.log("ping")
+      await program.rpc.startStuffOff({
+        accounts: {
+          baseAccount: baseAccount.publicKey,
+          user: provider.wallet.publicKey,
+          systemProgram: SystemProgram.programId,
+        },
+        signers: [baseAccount]
+      });
+      console.log("Created a new BaseAccount w/ address:", baseAccount.publicKey.toString())
+      await getGifList();
+  
+    } catch(error) {
+      console.log("Error creating BaseAccount account:", error)
+    }
+  }
 
   const sendGif = async () => {
     if (inputValue.length > 0) {
