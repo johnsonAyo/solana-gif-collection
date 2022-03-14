@@ -7,14 +7,13 @@ declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
 pub mod myepicproject {
   use super::*;
   pub fn start_stuff_off(ctx: Context<StartStuffOff>) -> ProgramResult {
-      // Get a reference to the account.
-      let base_account = &mut ctx.accounts.base_account;
-      // Initialize total_gifs.
-      base_account.total_gifs = 0;
+    // Get a reference to the account.
+    let base_account = &mut ctx.accounts.base_account;
+    // Initialize total_gifs.
+    base_account.total_gifs = 0;
     Ok(())
   }
 }
-
 
 // Attach certain variables to the StartStuffOff context.
 #[derive(Accounts)]
@@ -26,5 +25,8 @@ pub struct StartStuffOff<'info> {
     pub system_program: Program <'info, System>,
 }
 
-#[derive(Accounts)]
-pub struct StartStuffOff {}
+// Tell Solana what we want to store on this account.
+#[account]
+pub struct BaseAccount {
+    pub total_gifs: u64,
+}
