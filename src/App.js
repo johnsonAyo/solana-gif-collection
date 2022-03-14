@@ -1,10 +1,9 @@
 import twitterLogo from "./assets/twitter-logo.svg";
 import "./App.css";
 import { useEffect, useState } from "react";
-import idl from './idl.json';
-import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
-import { Program, Provider, web3 } from '@project-serum/anchor';
-
+import idl from "./idl.json";
+import { Connection, PublicKey, clusterApiUrl } from "@solana/web3.js";
+import { Program, Provider, web3 } from "@project-serum/anchor";
 
 // SystemProgram is a reference to the Solana runtime!
 const { SystemProgram, Keypair } = web3;
@@ -16,13 +15,12 @@ let baseAccount = Keypair.generate();
 const programID = new PublicKey(idl.metadata.address);
 
 // Set our network to devnet.
-const network = clusterApiUrl('devnet');
+const network = clusterApiUrl("devnet");
 
 // Controls how we want to acknowledge when a transaction is "done".
 const opts = {
-  preflightCommitment: "processed"
-}
-
+  preflightCommitment: "processed",
+};
 
 // Constants
 const TWITTER_HANDLE = "Ambiti0n____";
@@ -94,13 +92,21 @@ const App = () => {
     setInputValue(value);
   };
 
+  const getProvider = () => {
+  const connection = new Connection(network, opts.preflightCommitment);
+  const provider = new Provider(
+    connection, window.solana, opts.preflightCommitment,
+  );
+	return provider;
+}
+
   const sendGif = async () => {
     if (inputValue.length > 0) {
-      console.log('Gif link:', inputValue);
+      console.log("Gif link:", inputValue);
       setGifList([...gifList, inputValue]);
-      setInputValue('');
+      setInputValue("");
     } else {
-      console.log('Empty input. Try again.');
+      console.log("Empty input. Try again.");
     }
   };
 
@@ -166,14 +172,26 @@ const App = () => {
     return () => window.removeEventListener("load", onLoad);
   }, []);
 
+  const getGifList = async () => {
+    try {
+      const provider = getProvider();
+      const program = new Program(idl, programID, provider);
+      const account = await program.account.baseAccount.fetch(
+        baseAccount.publicKey
+      );
+
+      console.log("Got the account", account);
+      setGifList(account.gifList);
+    } catch (error) {
+      console.log("Error in getGifList: ", error);
+      setGifList(null);
+    }
+  };
+
   useEffect(() => {
     if (walletAddress) {
       console.log("Fetching GIF list...");
-
-      // Call Solana program here.
-
-      // Set state
-      setGifList(TEST_GIFS);
+      getGifList();
     }
   }, [walletAddress]);
 
